@@ -1,0 +1,103 @@
+<html>
+	<head></head>
+	<link rel="stylesheet" href="bootstrap-5.2.1-dist\css\bootstrap.css">
+    <script src="jquery-1.8.3.min.js"></script>
+        
+    <script>
+        $(document).ready(function(){
+            const urlParams = new URLSearchParams(window.location.search);
+            var id = urlParams.get("id");
+           // alert(id);
+            $.ajax({
+                method:"GET",
+                url:"http://localhost:8000/api/employees/"+id,
+               
+                
+                
+                
+            
+                success:function(data){
+                    //alert(data); 
+					$('#id').val(data.data.id)
+                    $('#name').val(data.data.emp_name);
+                    $('#age').val(data.data.emp_age);
+                    $('#city').val(data.data.emp_city);
+                    $('#salary').val(data.data.emp_salary);
+                    
+                }, 
+                
+            });
+
+
+			$("#btnbutton").click(function () {
+				
+				$.ajax({
+					type:'PUT',
+					url:"http://localhost:8000/api/employees/"+id,
+					data:{
+						id: $('#id').val(),
+						emp_name: $('#name').val(),
+						emp_salary:$('#salary').val(),
+						emp_age:$('#age').val(),
+						emp_city:$('#city').val()
+					},
+					success:function(data){
+						//window.location.href="view.html";
+						alert(data.status); 
+					   
+						
+					}, 
+					error:function(response){
+						alert(response);
+					}
+					
+				});
+			});
+
+        });
+    </script>
+		
+	<body>
+		<form method="post" action="http://localhost:8000/api/employees/3">
+		<div class="container w-50 mt-5" >
+			<div class="form-group">
+			
+				<label></label>
+				<input type="hidden" name="id" id="id" class="form-control">
+			</div>
+		<div class="form-group">
+			
+			<label>Employee Name</label>
+			<input type="text" name="emp_name" id="name" class="form-control">
+		</div>
+			
+			
+		<div class="form-group">
+			<label>Age</label>
+			<input type="number" name="emp_age" id="age" class="form-control">
+		</div>
+			
+			<div class="form-group">
+			<label>City</label>
+			<input type="text" name="emp_city" id="city" class="form-control">
+			
+			</div>
+			
+			
+			
+			<div class="form-group">
+			<label>Salary</label>
+			<input type="text" name="emp_salary" id="salary" class="form-control">
+			
+			</div>
+			<div class="form-group">
+			<label></label>
+			<td>
+				<input type="button" class="btn btn-danger" id="btnbutton" value="Update"></td>
+			
+			</div>
+		</div>
+	</form>
+	</body>
+
+</html>
